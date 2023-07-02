@@ -71,13 +71,27 @@ function resetStyles() {
   ctx.lineWidth = default_line_width;
 }
 
+function drawImage(image_name, _x, _y, hitbox = false) {
+  image = new Image();
+  image.src = image_name;
+
+  x = _x - image.width / 2;
+  y = _y - image.height / 2;
+
+  ctx.drawImage(image, x, y);
+
+  if (hitbox) {
+    ctx.strokeStyle = "#ff0000";
+    ctx.strokeRect(x, y, image.width, image.height);
+  }
+}
+
 // Game Loop
 function gameLoop() {
   clearCanvas();
   resetStyles();
 
-  // Game Loop Code
-  console.log("Frame");
+  drawImage(image_table.red_arrow, 50, 50, true);
 }
 
 // Start Game
