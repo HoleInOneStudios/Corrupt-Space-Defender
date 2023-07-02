@@ -1,4 +1,4 @@
-// Setting
+// Grabbing the Canvas Element and Context
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
