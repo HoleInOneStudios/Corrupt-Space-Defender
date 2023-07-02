@@ -18,11 +18,28 @@
             ".github": true,
             "docs": true,
             "src": true
-        }
+        },
+        "liveServer.settings.multiRootWorkspaceName": "src"
     },
     "tasks": {
         "version": "2.0.0",
-        "tasks": []
+        "tasks": [
+            {
+                "label": "Butler: Build",
+                "type": "shell",
+                "command": "butler",
+                "args": [
+                    "push",
+                    "./src",
+                    "HoleInOneGolfer/gmtk-jam-2023-entry:html"
+                ],
+                "problemMatcher": [],
+                "group": {
+                    "kind": "build",
+                    "isDefault": true
+                }
+            }
+        ]
     },
     "launch": {
         "configurations": [],
