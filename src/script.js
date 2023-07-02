@@ -11,24 +11,7 @@ const default_stroke_color = "#000000";
 const default_fill_color = "#000000";
 const default_line_width = 1;
 
-// Canvas Utility Functions
-function setCanvasSize() {
-  canvas.width = width;
-  canvas.height = height;
-}
-
-function clearCanvas() {
-  ctx.fillStyle = background_color;
-  ctx.fillRect(0, 0, width, height);
-
-  resetStyles();
-}
-
-function resetStyles() {
-  ctx.strokeStyle = default_stroke_color;
-  ctx.fillStyle = default_fill_color;
-  ctx.lineWidth = default_line_width;
-}
+const fps = 60;
 
 // Assets Table
 const image_table = {
@@ -69,4 +52,35 @@ async function preload() {
   }
 }
 
+// Canvas Utility Functions
+function setCanvasSize() {
+  canvas.width = width;
+  canvas.height = height;
+}
+
+function clearCanvas() {
+  ctx.fillStyle = background_color;
+  ctx.fillRect(0, 0, width, height);
+
+  resetStyles();
+}
+
+function resetStyles() {
+  ctx.strokeStyle = default_stroke_color;
+  ctx.fillStyle = default_fill_color;
+  ctx.lineWidth = default_line_width;
+}
+
+// Game Loop
+function gameLoop() {
+  clearCanvas();
+  resetStyles();
+
+  // Game Loop Code
+  console.log("Frame");
+}
+
+// Start Game
 preload();
+setCanvasSize();
+setInterval(gameLoop, 1000 / fps);
