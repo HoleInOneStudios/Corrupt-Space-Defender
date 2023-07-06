@@ -50,6 +50,10 @@ document.addEventListener("click", async (event) => {
         x: Random(0, cnv.canvas.width),
         y: Random(0, cnv.canvas.height),
       });
+      //play sounds
+      let sound = new Audio(audio.explosion);
+      sound.play();
+
       return;
     }
   });
