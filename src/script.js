@@ -22,9 +22,10 @@ cnv.resize();
 const arrow = new gameobject(50, 50, 32, 32, images.red_arrow, true);
 
 const gameloop = setInterval(async () => {
+  cnv.resetContext();
   cnv.clear();
   cnv.background();
-  cnv.resetContext();
+  cnv.drawGrid();
 
   // Your code goes here
   arrow.draw(cnv.context);

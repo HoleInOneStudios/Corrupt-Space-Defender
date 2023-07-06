@@ -34,6 +34,22 @@ class canvas {
 
     return { x: pos.x - rect.left, y: pos.y - rect.top };
   }
+
+  async drawGrid(size = 32) {
+    for (let i = 0; i < this.canvas.width; i += size) {
+      this.context.beginPath();
+      this.context.moveTo(i, 0);
+      this.context.lineTo(i, this.canvas.height);
+      this.context.stroke();
+    }
+
+    for (let i = 0; i < this.canvas.height; i += size) {
+      this.context.beginPath();
+      this.context.moveTo(0, i);
+      this.context.lineTo(this.canvas.width, i);
+      this.context.stroke();
+    }
+  }
 }
 
 export { canvas };
