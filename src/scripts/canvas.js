@@ -35,6 +35,13 @@ class canvas {
     return { x: pos.x - rect.left, y: pos.y - rect.top };
   }
 
+  curosrPosition(cursor) {
+    let rect = this.canvas.getBoundingClientRect();
+    let pos = { x: cursor.x, y: cursor.y };
+
+    return { x: pos.x - rect.left, y: pos.y - rect.top };
+  }
+
   async drawGrid(size = 32) {
     for (let i = 0; i < this.canvas.width; i += size) {
       this.context.beginPath();

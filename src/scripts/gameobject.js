@@ -1,3 +1,5 @@
+import { Random } from "./utility.js";
+
 class gameobject {
   constructor(x = 0, y = 0, width, height, image_path, hitbox_shown = false) {
     this.pos = { x: x, y: y };
@@ -45,6 +47,10 @@ class gameobject {
     } else {
       return false;
     }
+  }
+
+  collision() {
+    console.log("Collision");
   }
 }
 
