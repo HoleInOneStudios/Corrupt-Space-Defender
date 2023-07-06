@@ -19,10 +19,13 @@ let cnv = new canvas("canvas");
 
 cnv.resize();
 
-const gameloop = setInterval(() => {
+const arrow = new gameobject(50, 50, 32, 32, images.red_arrow, true);
+
+const gameloop = setInterval(async () => {
   cnv.clear();
   cnv.background();
   cnv.resetContext();
 
   // Your code goes here
+  arrow.draw(cnv.context);
 }, 1000 / 60);

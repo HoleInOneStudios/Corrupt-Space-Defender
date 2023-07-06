@@ -24,6 +24,24 @@ class gameobject {
       context.strokeRect(pos.x, pos.y, this.width, this.height);
     }
   }
+
+  collisionWithPoint(x, y) {
+    let pos = {
+      x: this.x - this.width / 2,
+      y: this.y - this.height / 2,
+    };
+
+    if (
+      x > pos.x &&
+      x < pos.x + this.width &&
+      y > pos.y &&
+      y < pos.y + this.height
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
 
 export { gameobject };

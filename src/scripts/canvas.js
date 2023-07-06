@@ -27,6 +27,13 @@ class canvas {
     this.context.fillStyle = this.background_color;
     this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
   }
+
+  mousePosition(event) {
+    let rect = this.canvas.getBoundingClientRect();
+    let pos = { x: event.clientX, y: event.clientY };
+
+    return { x: pos.x - rect.left, y: pos.y - rect.top };
+  }
 }
 
 export { canvas };
