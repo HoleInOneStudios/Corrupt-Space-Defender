@@ -1,11 +1,15 @@
 class gameobject {
   constructor(x = 0, y = 0, width, height, image_path, hitbox_shown = false) {
-    this.x = x;
-    this.y = y;
+    this.pos = { x: x, y: y };
     this.width = width;
     this.height = height;
     this.image_path = image_path;
     this.hitbox_shown = hitbox_shown;
+  }
+
+  setPos({ x, y }) {
+    this.pos.x = x;
+    this.pos.y = y;
   }
 
   draw(context) {
@@ -13,8 +17,8 @@ class gameobject {
     image.src = this.image_path;
 
     let pos = {
-      x: this.x - this.width / 2,
-      y: this.y - this.height / 2,
+      x: this.pos.x - this.width / 2,
+      y: this.pos.y - this.height / 2,
     };
 
     context.drawImage(image, pos.x, pos.y, this.width, this.height);
@@ -27,8 +31,8 @@ class gameobject {
 
   collisionWithPoint(x, y) {
     let pos = {
-      x: this.x - this.width / 2,
-      y: this.y - this.height / 2,
+      x: this.pos.x - this.width / 2,
+      y: this.pos.y - this.height / 2,
     };
 
     if (
