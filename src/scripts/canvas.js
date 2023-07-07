@@ -1,5 +1,5 @@
 class canvas {
-  constructor(id, width = 640, height = 360, background_color = "#ffffff") {
+  constructor(id, background_color = "#000000", width = 640, height = 360) {
     /** @type {HTMLCanvasElement} */
     this.canvas = document.getElementById(id);
     /** @type {CanvasRenderingContext2D} */

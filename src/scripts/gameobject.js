@@ -52,6 +52,20 @@ class gameobject {
   collision() {
     console.log("Collision");
   }
+
+  moveTo(x, y, amount) {
+    let dx = x - this.pos.x;
+    let dy = y - this.pos.y;
+    let angle = Math.atan2(dy, dx);
+    let vx = Math.cos(angle) * amount;
+    let vy = Math.sin(angle) * amount;
+    this.pos.x += vx;
+    this.pos.y += vy;
+  }
+
+  distanceTo(x = 0, y = 0) {
+    return Math.sqrt((x - this.pos.x) ** 2 + (y - this.pos.y) ** 2);
+  }
 }
 
 export { gameobject };
