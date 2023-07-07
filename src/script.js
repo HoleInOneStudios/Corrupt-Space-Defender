@@ -17,7 +17,9 @@ const images = {
 
 const audio = {
   // name, path
-  explosion: "./assets/sounds/explodemini.wav",
+  explosion: "./assets/sounds/Explosion.wav",
+  shield: "./assets/sounds/shield.wav",
+  shoot: "./assets/sounds/shoot.wav",
 };
 
 LoadImages(images);
@@ -36,6 +38,10 @@ document.addEventListener("mousemove", (event) => {
 document.addEventListener("click", async (event) => {
   ship_array.forEach((ship) => {
     if (ship.collisionWithPoint(cursor.pos.x, cursor.pos.y)) {
+      let shield_audio = new Audio();
+      shield_audio.src = audio.shield;
+      shield_audio.play();
+
       ship.immune = true;
     }
   });
@@ -104,6 +110,9 @@ const gameloop = setInterval(async () => {
         y: Random(0, cnv.canvas.height),
       });
       ship.immune = false;
+      let shield_audio = new Audio();
+      shield_audio.src = audio.explosion;
+      shield_audio.play();
     }
     ship.draw(cnv.context);
   });
@@ -124,5 +133,8 @@ const planet_fire = setInterval(async () => {
       });
     }
     planet_target.immune = false;
+    let shield_audio = new Audio();
+    shield_audio.src = audio.shoot;
+    shield_audio.play();
   }
 }, 1000 / 5);
