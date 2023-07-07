@@ -1,8 +1,7 @@
 import { gameobject } from "./scripts/gameobject.js";
 import { canvas } from "./scripts/canvas.js";
 import { LoadImages, LoadAudio } from "./scripts/loading.js";
-import { Random } from "./scripts/utility.js";
-
+import { Random, PlaySound } from "./scripts/utility.js";
 import { Planet, Ship } from "./scripts/extendedGameObjects.js";
 
 let score = 0;
@@ -29,7 +28,7 @@ let cnv = new canvas("canvas");
 
 cnv.resize();
 
-const cursor = new gameobject(0, 0, 32, 32, images.cursor);
+const cursor = new gameobject({ x: 0, y: 0 }, 32, 32, images.cursor);
 document.addEventListener("mousemove", (event) => {
   let pos = cnv.mousePosition(event);
   cursor.setPos(pos);
@@ -37,10 +36,10 @@ document.addEventListener("mousemove", (event) => {
 
 document.addEventListener("click", async (event) => {
   ship_array.forEach((ship) => {
-    if (ship.collisionWithPoint(cursor.pos.x, cursor.pos.y)) {
-      let shield_audio = new Audio();
-      shield_audio.src = audio.shield;
-      shield_audio.play();
+    if (ship.collisionWithPoint(cursor.pos)) {
+      if (!ship.immune) {
+        PlaySound(audio.shield);
+      }
 
       ship.immune = true;
     }
@@ -48,8 +47,7 @@ document.addEventListener("click", async (event) => {
 });
 
 const planet = new Planet(
-  cnv.canvas.width / 2,
-  cnv.canvas.height / 2,
+  { x: cnv.canvas.width / 2, y: cnv.canvas.height / 2 },
   64,
   64,
   images.planet
@@ -59,13 +57,12 @@ let ship_array = [];
 
 for (let i = 0; i < 5; i++) {
   let ship = new Ship(
-    Random(0, cnv.canvas.width),
-    Random(0, cnv.canvas.height),
+    { x: Random(0, cnv.canvas.width), y: Random(0, cnv.canvas.height) },
     32,
     32,
     images.ship_off,
-    false,
-    images.ship_on
+    images.ship_on,
+    false
   );
   ship_array.push(ship);
 }
@@ -93,15 +90,15 @@ const gameloop = setInterval(async () => {
 
   planet.draw(cnv.context);
   ship_array.forEach((ship) => {
-    ship.moveTo(planet.pos.x, planet.pos.y, ship.speed * Math.random());
+    ship.moveToward(planet.pos, ship.speed * Math.random());
     if (
-      planet.distanceTo(planet_target.pos.x, planet_target.pos.y) >
-      planet.distanceTo(ship.pos.x, ship.pos.y) * Random(1.2, 1.5, 0.1)
+      planet.distanceTo(planet_target.pos) >
+      planet.distanceTo(ship.pos) * Random(1.2, 1.5, 0.1)
     ) {
       planet_target = ship;
     }
 
-    if (planet.collisionWithPoint(ship.pos.x, ship.pos.y)) {
+    if (planet.collisionWithPoint(ship.pos)) {
       if (ship.immune) {
         score += 1;
       }
@@ -110,9 +107,7 @@ const gameloop = setInterval(async () => {
         y: Random(0, cnv.canvas.height),
       });
       ship.immune = false;
-      let shield_audio = new Audio();
-      shield_audio.src = audio.explosion;
-      shield_audio.play();
+      PlaySound(audio.explosion);
     }
     ship.draw(cnv.context);
   });
@@ -123,8 +118,6 @@ const gameloop = setInterval(async () => {
 }, 1000 / 30);
 
 const planet_fire = setInterval(async () => {
-  let distance = planet.distanceTo(planet_target.pos.x, planet_target.pos.y);
-
   if (Random(0, 1, 0.01) > 0.95) {
     if (!planet_target.immune) {
       planet_target.setPos({
@@ -133,8 +126,6 @@ const planet_fire = setInterval(async () => {
       });
     }
     planet_target.immune = false;
-    let shield_audio = new Audio();
-    shield_audio.src = audio.shoot;
-    shield_audio.play();
+    PlaySound(audio.shoot);
   }
 }, 1000 / 5);

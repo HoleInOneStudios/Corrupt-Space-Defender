@@ -1,8 +1,14 @@
-import { Random } from "./utility.js";
+import { MakeImage } from "./utility.js";
 
 class gameobject {
-  constructor(x = 0, y = 0, width, height, image_path, hitbox_shown = false) {
-    this.pos = { x: x, y: y };
+  constructor(
+    { x = 0, y = 0 },
+    width,
+    height,
+    image_path,
+    hitbox_shown = false
+  ) {
+    this.pos = { x, y };
     this.width = width;
     this.height = height;
     this.image_path = image_path;
@@ -15,27 +21,29 @@ class gameobject {
   }
 
   draw(context) {
-    let image = new Image();
-    image.src = this.image_path;
+    let pos = this.topCornerCoords();
 
-    let pos = {
-      x: this.pos.x - this.width / 2,
-      y: this.pos.y - this.height / 2,
-    };
-
-    context.drawImage(image, pos.x, pos.y, this.width, this.height);
+    context.drawImage(
+      MakeImage(this.image_path),
+      pos.x,
+      pos.y,
+      this.width,
+      this.height
+    );
 
     if (this.hitbox_shown) {
-      context.strokeStyle = "#ff0000";
-      context.strokeRect(pos.x, pos.y, this.width, this.height);
+      this.drawHitbox(context);
     }
   }
 
-  collisionWithPoint(x, y) {
-    let pos = {
-      x: this.pos.x - this.width / 2,
-      y: this.pos.y - this.height / 2,
-    };
+  drawHitbox(context) {
+    let pos = this.topCornerCoords();
+    context.strokeStyle = "#ff0000";
+    context.strokeRect(pos.x, pos.y, this.width, this.height);
+  }
+
+  collisionWithPoint({ x, y }) {
+    let pos = this.topCornerCoords();
 
     if (
       x > pos.x &&
@@ -53,7 +61,7 @@ class gameobject {
     console.log("Collision");
   }
 
-  moveTo(x, y, amount) {
+  moveToward({ x, y }, amount) {
     let dx = x - this.pos.x;
     let dy = y - this.pos.y;
     let angle = Math.atan2(dy, dx);
@@ -63,8 +71,15 @@ class gameobject {
     this.pos.y += vy;
   }
 
-  distanceTo(x = 0, y = 0) {
+  distanceTo({ x = 0, y = 0 }) {
     return Math.sqrt((x - this.pos.x) ** 2 + (y - this.pos.y) ** 2);
+  }
+
+  topCornerCoords() {
+    return {
+      x: this.pos.x - this.width / 2,
+      y: this.pos.y - this.height / 2,
+    };
   }
 }
 

@@ -7,4 +7,15 @@ function Random(start, end, step = 1) {
   );
 }
 
-export { Random };
+function PlaySound(sound) {
+  var audio = new Audio(sound);
+  audio.play();
+}
+
+function MakeImage(image) {
+  let img = new Image();
+  img.src = image;
+  return img;
+}
+
+export { Random, PlaySound, MakeImage };
