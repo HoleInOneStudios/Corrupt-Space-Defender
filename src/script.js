@@ -1,7 +1,6 @@
 import { gameobject } from "./scripts/gameobject.js";
 import { canvas } from "./scripts/canvas.js";
-import { LoadImages, LoadAudio } from "./scripts/loading.js";
-import { Random, PlaySound } from "./scripts/utility.js";
+import { Random, PlaySound, LoadImages, LoadAudio } from "./scripts/utility.js";
 import { Planet, Ship } from "./scripts/extendedGameObjects.js";
 
 let score = 0;

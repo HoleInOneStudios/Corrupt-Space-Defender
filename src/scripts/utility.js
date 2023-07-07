@@ -18,4 +18,20 @@ function MakeImage(image) {
   return img;
 }
 
-export { Random, PlaySound, MakeImage };
+async function LoadImages(list) {
+  for (const key in list) {
+    fetch(list[key]).finally(() => {
+      console.log(`Loaded ${key}`);
+    });
+  }
+}
+
+async function LoadAudio(list) {
+  for (const key in list) {
+    fetch(list[key]).finally(() => {
+      console.log(`Loaded ${key}`);
+    });
+  }
+}
+
+export { Random, PlaySound, MakeImage, LoadAudio, LoadImages };
