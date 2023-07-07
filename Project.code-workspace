@@ -31,7 +31,7 @@
                 "args": [
                     "push",
                     "./src",
-                    "HoleInOneGolfer/gmtk-jam-2023-entry:html"
+                    "HoleInOneGolfer/corrupt-space-defender:html"
                 ],
                 "problemMatcher": [],
                 "group": {
