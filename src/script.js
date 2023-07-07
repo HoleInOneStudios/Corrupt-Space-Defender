@@ -150,8 +150,9 @@ const gameloop = setInterval(async () => {
   });
 
   //draw ui
-  cnv.context.font = "30px Arial";
-  cnv.context.fillText(score, cnv.canvas.width / 2, 30);
+  cnv.context.font = "30px space";
+  cnv.context.textAlign = "center";
+  cnv.context.fillText("score: " + score, cnv.canvas.width / 2, 30);
 }, 1000 / 30);
 
 /**
