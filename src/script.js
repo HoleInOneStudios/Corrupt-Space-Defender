@@ -9,10 +9,10 @@ let score = 0;
 
 const images = {
   // name, path
-  red_arrow: "./assets/images/red_arrow.png",
-  cursor: "./assets/images/cursor.png",
-  ship_off: "./assets/images/ship_off.png",
-  ship_on: "./assets/images/ship_on.png",
+  planet: "./assets/images/center circle (defender).png",
+  cursor: "./assets/images/crosshare.png",
+  ship_off: "./assets/images/atacker.png",
+  ship_on: "./assets/images/shielded_atacker.png",
 };
 
 const audio = {
@@ -46,7 +46,7 @@ const planet = new Planet(
   cnv.canvas.height / 2,
   64,
   64,
-  images.red_arrow
+  images.planet
 );
 
 let ship_array = [];
