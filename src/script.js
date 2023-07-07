@@ -27,7 +27,7 @@ let cnv = new canvas("canvas");
 
 cnv.resize();
 
-const cursor = new gameobject(0, 0, 32, 32, images.cursor, true);
+const cursor = new gameobject(0, 0, 32, 32, images.cursor);
 document.addEventListener("mousemove", (event) => {
   let pos = cnv.mousePosition(event);
   cursor.setPos(pos);
@@ -46,8 +46,7 @@ const planet = new Planet(
   cnv.canvas.height / 2,
   64,
   64,
-  images.red_arrow,
-  true
+  images.red_arrow
 );
 
 let ship_array = [];
@@ -59,7 +58,7 @@ for (let i = 0; i < 5; i++) {
     32,
     32,
     images.ship_off,
-    true,
+    false,
     images.ship_on
   );
   ship_array.push(ship);
@@ -81,6 +80,7 @@ const gameloop = setInterval(async () => {
 
   // draw everything
   cnv.context.beginPath();
+  cnv.context.strokeStyle = "#ff0000";
   cnv.context.moveTo(planet.pos.x, planet.pos.y);
   cnv.context.lineTo(planet_target.pos.x, planet_target.pos.y);
   cnv.context.stroke();
