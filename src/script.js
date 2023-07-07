@@ -6,46 +6,50 @@ import { Planet, Ship } from "./scripts/extendedGameObjects.js";
 
 let score = 0;
 
+/**
+ * Image Table (name, path)
+ */
 const images = {
-  // name, path
   planet: "./assets/images/center circle (defender).png",
   cursor: "./assets/images/crosshare.png",
   ship_off: "./assets/images/atacker.png",
   ship_on: "./assets/images/shielded_atacker.png",
 };
 
+/**
+ * Audio Table (name, path)
+ */
 const audio = {
-  // name, path
   explosion: "./assets/sounds/Explosion.wav",
   shield: "./assets/sounds/shield.wav",
   shoot: "./assets/sounds/shoot.wav",
 };
 
+// Load Images and Audio
 LoadImages(images);
 LoadAudio(audio);
 
+/**
+ * Game Area
+ */
 let cnv = new canvas("canvas");
 
+// Resize canvas to fit window
 cnv.resize();
 
+/**
+ * Mouse Cursor
+ */
 const cursor = new gameobject({ x: 0, y: 0 }, 32, 32, images.cursor);
 document.addEventListener("mousemove", (event) => {
   let pos = cnv.mousePosition(event);
   cursor.setPos(pos);
 });
 
-document.addEventListener("click", async (event) => {
-  ship_array.forEach((ship) => {
-    if (ship.collisionWithPoint(cursor.pos)) {
-      if (!ship.immune) {
-        PlaySound(audio.shield);
-      }
-
-      ship.immune = true;
-    }
-  });
-});
-
+/**
+ * Game Objects
+ * @type {Planet}
+ */
 const planet = new Planet(
   { x: cnv.canvas.width / 2, y: cnv.canvas.height / 2 },
   64,
@@ -53,6 +57,10 @@ const planet = new Planet(
   images.planet
 );
 
+/**
+ * Ship Array
+ * @type {Array<Ship>}
+ */
 let ship_array = [];
 
 for (let i = 0; i < 5; i++) {
@@ -67,8 +75,33 @@ for (let i = 0; i < 5; i++) {
   ship_array.push(ship);
 }
 
-let planet_target = ship_array[0];
+/**
+ * Planet's Target
+ * @type {Ship}
+ */
+let target = ship_array[0];
 
+/**
+ * Mouse Click Event
+ * @type {Event}
+ */
+const mouse_click = document.addEventListener("click", async (event) => {
+  ship_array.forEach((ship) => {
+    if (ship.collisionWithPoint(cursor.pos)) {
+      if (!ship.immune) {
+        PlaySound(audio.shield);
+      }
+
+      ship.immune = true;
+    }
+  });
+});
+
+/**
+ * Game Loop
+ * @type {Interval}
+ * @description This is where the game logic goes
+ */
 const gameloop = setInterval(async () => {
   cnv.resetContext();
   cnv.clear();
@@ -79,25 +112,28 @@ const gameloop = setInterval(async () => {
   //mouse cursor
   cursor.draw(cnv.context);
 
-  // Your code goes here
-
-  // draw everything
+  // Draw line from planet to target
   cnv.context.beginPath();
   cnv.context.strokeStyle = "#ff0000";
   cnv.context.moveTo(planet.pos.x, planet.pos.y);
-  cnv.context.lineTo(planet_target.pos.x, planet_target.pos.y);
+  cnv.context.lineTo(target.pos.x, target.pos.y);
   cnv.context.stroke();
 
+  // Draw Planet
   planet.draw(cnv.context);
   ship_array.forEach((ship) => {
+    // move ship's toward planet
     ship.moveToward(planet.pos, ship.speed * Math.random());
+
+    // if ship is closer to target than planet, set target to ship
     if (
-      planet.distanceTo(planet_target.pos) >
+      planet.distanceTo(target.pos) >
       planet.distanceTo(ship.pos) * Random(1.2, 1.5, 0.1)
     ) {
-      planet_target = ship;
+      target = ship;
     }
 
+    // if ship collide with planet, reset ship position and if ship is immune, add score
     if (planet.collisionWithPoint(ship.pos)) {
       if (ship.immune) {
         score += 1;
@@ -109,6 +145,8 @@ const gameloop = setInterval(async () => {
       ship.immune = false;
       PlaySound(audio.explosion);
     }
+
+    // draw ship
     ship.draw(cnv.context);
   });
 
@@ -117,15 +155,20 @@ const gameloop = setInterval(async () => {
   cnv.context.fillText(score, cnv.canvas.width / 2, 30);
 }, 1000 / 30);
 
+/**
+ * Planet's Fire
+ * @type {Interval}
+ * @description Planet will fire at the target
+ */
 const planet_fire = setInterval(async () => {
-  if (Random(0, 1, 0.01) > 0.95) {
-    if (!planet_target.immune) {
-      planet_target.setPos({
+  if (Random(0, 1, 0.01) > 0.9) {
+    if (!target.immune) {
+      target.setPos({
         x: Random(0, cnv.canvas.width),
         y: Random(0, cnv.canvas.height),
       });
     }
-    planet_target.immune = false;
+    target.immune = false;
     PlaySound(audio.shoot);
   }
 }, 1000 / 5);

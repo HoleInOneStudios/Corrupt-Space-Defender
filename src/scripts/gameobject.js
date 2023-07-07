@@ -1,5 +1,10 @@
 import { MakeImage } from "./utility.js";
 
+/**
+ * Game Object
+ * @class
+ * @description Base class for all game objects
+ */
 class gameobject {
   constructor(
     { x = 0, y = 0 },
