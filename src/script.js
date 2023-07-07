@@ -80,6 +80,11 @@ const gameloop = setInterval(async () => {
   // Your code goes here
 
   // draw everything
+  cnv.context.beginPath();
+  cnv.context.moveTo(planet.pos.x, planet.pos.y);
+  cnv.context.lineTo(planet_target.pos.x, planet_target.pos.y);
+  cnv.context.stroke();
+
   planet.draw(cnv.context);
   ship_array.forEach((ship) => {
     ship.moveTo(planet.pos.x, planet.pos.y, ship.speed * Math.random());
@@ -89,11 +94,6 @@ const gameloop = setInterval(async () => {
     ) {
       planet_target = ship;
     }
-
-    cnv.context.beginPath();
-    cnv.context.moveTo(planet.pos.x, planet.pos.y);
-    cnv.context.lineTo(planet_target.pos.x, planet_target.pos.y);
-    cnv.context.stroke();
 
     if (planet.collisionWithPoint(ship.pos.x, ship.pos.y)) {
       if (ship.immune) {
